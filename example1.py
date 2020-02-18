@@ -23,3 +23,15 @@ def move(my_history, their_history, my_score, their_score):
     
     #This example player always betrays.      
     return 'b'
+
+team_name = 'The Semi Competent Programmers' # Only 10 chars displayed.
+strategy_name = 'Tit-For-Tat'
+strategy_description = '''/
+Depending on the opponents last move, I will copy their move. Essentially, I will betray each time my opponent has betrayed because this method is a tit-for-tat. So, you are "hurting" them is response to them "hurting" you. '''
+    
+def move(my_history, their_history, my_score, their_score):
+
+  if my_history[-1] == 'b':
+    return 'b'
+  else:
+    return 'c'

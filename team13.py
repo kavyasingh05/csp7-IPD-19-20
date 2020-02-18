@@ -23,10 +23,11 @@ def move(my_history, their_history, my_score, their_score):
     
     # Analyze my_history and their_history and/or my_score and their_score.
     # Decide whether to return 'c' or 'b'.
-    while their_history[-1] != "b" and their_history[-2] != b:
+    
+    if their_history[-1] != "b" and their_history[-2] != b:
       return 'b'
     else:
-      while their_history[-1] != "b":
+      if their_history[-1] != "b":
         return 'c'
 '''
 bbbbbbbbbbbbbbbbbbbb
@@ -35,8 +36,7 @@ cbcbcbcbcbcbcbcbcbcb
 
 team_name = 'The Semi Competent Programmers' # Only 10 chars displayed.
 strategy_name = 'Tit-For-Tat'
-strategy_description = '''/
-Depending on the opponents last move, I will copy their move. Essentially, I will betray each time my opponent has betrayed because this method is a tit-for-tat. So, you are "hurting" them is response to them "hurting" you. '''
+strategy_description = 'Depending on the opponents last move, I will copy their move. Essentially, I will betray each time my opponent has betrayed because this method is a tit-for-tat. So, you are "hurting" them is response to them "hurting" you.'
     
 def move(my_history, their_history, my_score, their_score):
 
@@ -50,8 +50,12 @@ ccbcbcbcbcbcbcbcbcbc
 cbcbcbcbcbcbcbcbcbcb
 '''
 
-'''team_name = 'The Semi Competent Programmers' # Only 10 chars displayed.
-strategy_name = ''
-strategy_description = ''
-    
-def move(my_history, their_history, my_score, their_score):'''
+team_name = 'The Semi Competent Programmers' # Only 10 chars displayed.
+strategy_name = "As Long As We're Winning"
+strategy_description = "Betray until our score is higher than the opponent's
+"    
+def move(my_history, their_history, my_score, their_score):
+  if my_score > their_score:
+    return c
+  else:
+    return b
