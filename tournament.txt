@@ -1,12 +1,16 @@
 --------------------------------------------------------------------------------
 Section 0 - Line up
 --------------------------------------------------------------------------------
-Player 0 (P0): E0, Collude
-        Always collude.
-Player 1 (P1): E1, Betray
-        Always betray.
-Player 2 (P2): E2, Alternate
-        Collude, then alternate.
+Player 0 (P0): The Semi Competent Programmers, Two Wrongs Might Make a Right
+        Betray until the opponent betrays twice in a row, then collude until the
+         opponent betrays again
+Player 1 (P1): The Semi Competent Programmers, Tit-For-Tat
+        Depending on the opponents last move, I will copy their move. Essentiall
+        y, I will betray each time my opponent has betrayed because this method 
+        is a tit-for-tat. So, you are hurting them is response to them hurting y
+        ou.
+Player 2 (P2): The Semi Competent Programmers, As Long As We're Winning
+        Betray until our score is higher than the opponent's
 Player 3 (P3): E3, Collude but retaliate
         Collude first round. Collude, except in a round after getting 
         a severe punishment.
@@ -15,20 +19,20 @@ Section 1 - Player vs. Player
 --------------------------------------------------------------------------------
 Each column shows pts//round earned against each other player:
              P0     P1     P2     P3
-vs. P0 :      0    100     49      0
-vs. P1 :   -500      0   -375   -375
-vs. P2 :   -248    -75      0   -201
-vs. P3 :      0    -75   -196      0
-TOTAL  :   -748    -50   -522   -576
+vs. P0 :      0   -500   -250   -376
+vs. P1 :    100      0      0      0
+vs. P2 :   -250     -3      0   -200
+vs. P3 :    -74      0   -200      0
+TOTAL  :   -224   -503   -450   -576
 --------------------------------------------------------------------------------
 Section 2 - Leaderboard
 --------------------------------------------------------------------------------
 Average points per round:
 Team name (P#):  Score      with strategy name
-E1        (P1):        -13 points with Betray                                  
-E2        (P2):       -131 points with Alternate                               
+The Semi C(P0):        -56 points with Two Wrongs Might Make a Right           
+The Semi C(P2):       -113 points with As Long As We're Winning                
+The Semi C(P1):       -126 points with Tit-For-Tat                             
 E3        (P3):       -144 points with Collude but retaliate                   
-E0        (P0):       -187 points with Collude                                 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 example0--------------------------------------------------------------------------------
@@ -57,6 +61,35 @@ def move(my_history, their_history, my_score, their_score):
     
     # This player always colludes.
     return 'c'
+
+team_name = 'The Semi Competent Programmers' # Only 10 chars displayed.
+strategy_name = 'Two Wrongs Might Make a Right'
+strategy_description = '''Betray until the opponent betrays twice in a row, then collude until the opponent betrays again'''
+    
+def move(my_history, their_history, my_score, their_score):
+    
+
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    first_turn = True
+    second_turn = True
+    if first_turn == True:
+      first_turn = False
+      return 'b'
+    elif second_turn == True:
+      second_turn = False
+      return 'b'
+    while their_history[-1] != "b" and their_history[-2] != b:
+      return 'b'
+    else:
+      while their_history[-1] != "b":
+        return 'c'
     --------------------------------------------------------------------------------
 example1--------------------------------------------------------------------------------
 ####
@@ -67,12 +100,12 @@ example1------------------------------------------------------------------------
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'E1'
+'''team_name = 'E1'
 strategy_name = 'Betray'
 strategy_description = 'Always betray.'
     
 def move(my_history, their_history, my_score, their_score):
-    '''Make my move based on the history with this player.
+    ''''''Make my move based on the history with this player.
     
     history: a string with one letter (c or b) per round that has been played with this opponent.
     their_history: a string of the same length as history, possibly empty. 
@@ -80,10 +113,26 @@ def move(my_history, their_history, my_score, their_score):
     The most recent round is my_history[-1] and their_history[-1]
     
     Returns 'c' or 'b' for collude or betray.
-    '''
+    ''''''
     
     #This example player always betrays.      
-    return 'b'
+    return 'b'''
+
+team_name = 'The Semi Competent Programmers' # Only 10 chars displayed.
+strategy_name = 'Tit-For-Tat'
+strategy_description = 'Depending on the opponents last move, I will copy their move. Essentially, I will betray each time my opponent has betrayed because this method is a tit-for-tat. So, you are hurting them is response to them hurting you.'
+    
+def move(my_history, their_history, my_score, their_score):
+  first_turn = True
+  if first_turn == True:
+    return 'c'
+    first_turn = False
+  else:
+    while their_history[-1] == 'b':
+      return 'b'
+    else:
+      return 'c'
+
 --------------------------------------------------------------------------------
 example2--------------------------------------------------------------------------------
 ####
@@ -94,12 +143,12 @@ example2------------------------------------------------------------------------
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'E2'
+'''team_name = 'E2'
 strategy_name = 'Alternate'
 strategy_description = 'Collude, then alternate.'
     
 def move(my_history, their_history, my_score, their_score):
-    '''Make my move based on the history with this player.
+    ''''''Make my move based on the history with this player.
     
     history: a string with one letter (c or b) per round that has been played with this opponent.
     their_history: a string of the same length as history, possibly empty. 
@@ -107,12 +156,21 @@ def move(my_history, their_history, my_score, their_score):
     The most recent round is my_history[-1] and their_history[-1]
     
     Returns 'c' or 'b' for collude or betray.
-    '''
+    ''''''
     # This player colludes on even numbered rounds (first round is round #0).
     if len(my_history)%2 == 0:
         return 'c'
     else:
-        return 'b'
+        return 'b' '''
+
+team_name = 'The Semi Competent Programmers' # Only 10 chars displayed.
+strategy_name = "As Long As We're Winning"
+strategy_description = "Betray until our score is higher than the opponent's"    
+def move(my_history, their_history, my_score, their_score):
+  if my_score > their_score:
+    return 'c'
+  else:
+    return 'b'
     --------------------------------------------------------------------------------
 example3--------------------------------------------------------------------------------
 ####
@@ -145,30 +203,66 @@ def move(my_history, their_history, my_score, their_score):
         return 'b' # Betray if they were severely punished last time,
     else:
         return 'c' # otherwise collude.--------------------------------------------------------------------------------
-Section 3 - Game Data for Team E0
+Section 3 - Game Data for Team The Semi Competent Programmers
 --------------------------------------------------------------------------------
--500 pt//round: E0(P0) "Collude"
-100 pt//ound: E1(P1) "Betray"
+100 pt//round: The Semi Competent Programmers(P0) "Two Wrongs Might Make a Right"
+-500 pt//ound: The Semi Competent Programmers(P1) "Tit-For-Tat"
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-250 pt//round: The Semi Competent Programmers(P0) "Two Wrongs Might Make a Right"
+-250 pt//ound: The Semi Competent Programmers(P2) "As Long As We're Winning"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-74 pt//round: The Semi Competent Programmers(P0) "Two Wrongs Might Make a Right"
+-376 pt//ound: E3(P3) "Collude but retaliate"
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team The Semi Competent Programmers
+--------------------------------------------------------------------------------
+-500 pt//round: The Semi Competent Programmers(P1) "Tit-For-Tat"
+100 pt//ound: The Semi Competent Programmers(P0) "Two Wrongs Might Make a Right"
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 
-ccccccccccc
-BBBBBBBBBBB
+cccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBB
 
 --------------------------------------------------------------------------------
--248 pt//round: E0(P0) "Collude"
-49 pt//ound: E2(P2) "Alternate"
-CcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCc
-CBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCB
+-3 pt//round: The Semi Competent Programmers(P1) "Tit-For-Tat"
+0 pt//ound: The Semi Competent Programmers(P2) "As Long As We're Winning"
+cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+BCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-CcCcCcCcCcCcCcCcCcCcCcCcCcC
-CBCBCBCBCBCBCBCBCBCBCBCBCBC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCC
 
 --------------------------------------------------------------------------------
-0 pt//round: E0(P0) "Collude"
+0 pt//round: The Semi Competent Programmers(P1) "Tit-For-Tat"
 0 pt//ound: E3(P3) "Collude but retaliate"
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -176,103 +270,73 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-CCCC
-CCCC
+CCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCC
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-Section 3 - Game Data for Team E1
+Section 3 - Game Data for Team The Semi Competent Programmers
 --------------------------------------------------------------------------------
-100 pt//round: E1(P1) "Betray"
--500 pt//ound: E0(P0) "Collude"
-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+-250 pt//round: The Semi Competent Programmers(P2) "As Long As We're Winning"
+-250 pt//ound: The Semi Competent Programmers(P0) "Two Wrongs Might Make a Right"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-BBBBBBBBBBB
-ccccccccccc
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
 --------------------------------------------------------------------------------
--75 pt//round: E1(P1) "Betray"
--375 pt//ound: E2(P2) "Alternate"
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+0 pt//round: The Semi Competent Programmers(P2) "As Long As We're Winning"
+-3 pt//ound: The Semi Competent Programmers(P1) "Tit-For-Tat"
+BCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-BbBbBbBbBbBbBbBbBbBb
-cbcbcbcbcbcbcbcbcbcb
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
---------------------------------------------------------------------------------
--75 pt//round: E1(P1) "Betray"
--375 pt//ound: E3(P3) "Collude but retaliate"
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
-
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+CCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCC
 
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-Section 3 - Game Data for Team E2
---------------------------------------------------------------------------------
-49 pt//round: E2(P2) "Alternate"
--248 pt//ound: E0(P0) "Collude"
-CBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCB
-CcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCcCc
+-200 pt//round: The Semi Competent Programmers(P2) "As Long As We're Winning"
+-200 pt//ound: E3(P3) "Collude but retaliate"
+BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
 
-CBCBCBCBCBCBCBCBCBCBCBCBCBC
-CcCcCcCcCcCcCcCcCcCcCcCcCcC
-
---------------------------------------------------------------------------------
--375 pt//round: E2(P2) "Alternate"
--75 pt//ound: E1(P1) "Betray"
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-
-cbcbcbcbcbcbcbcbcbcb
-BbBbBbBbBbBbBbBbBbBb
-
---------------------------------------------------------------------------------
--196 pt//round: E2(P2) "Alternate"
--201 pt//ound: E3(P3) "Collude but retaliate"
-CBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
-CcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-
-cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
-BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Section 3 - Game Data for Team E3
 --------------------------------------------------------------------------------
-0 pt//round: E3(P3) "Collude but retaliate"
-0 pt//ound: E0(P0) "Collude"
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-CCCC
-CCCC
-
---------------------------------------------------------------------------------
--375 pt//round: E3(P3) "Collude but retaliate"
--75 pt//ound: E1(P1) "Betray"
+-376 pt//round: E3(P3) "Collude but retaliate"
+-74 pt//ound: The Semi Competent Programmers(P0) "Two Wrongs Might Make a Right"
 cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
 BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
 
-cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
-BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
 
 --------------------------------------------------------------------------------
--201 pt//round: E3(P3) "Collude but retaliate"
--196 pt//ound: E2(P2) "Alternate"
-CcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-CBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+0 pt//round: E3(P3) "Collude but retaliate"
+0 pt//ound: The Semi Competent Programmers(P1) "Tit-For-Tat"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-200 pt//round: E3(P3) "Collude but retaliate"
+-200 pt//ound: The Semi Competent Programmers(P2) "As Long As We're Winning"
+cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+
+cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
 
 --------------------------------------------------------------------------------
